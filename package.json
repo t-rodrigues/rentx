@@ -4,24 +4,51 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "dev": "tsnd --inspect --respawn --transpile-only src/server.ts"
+    "dev": "tsnd -r tsconfig-paths/register --inspect --respawn --transpile-only src/main/server.ts",
+    "dev:up": "docker-compose up -d",
+    "dev:down": "docker-compose down",
+    "typeorm": "tsnd ./node_modules/typeorm/cli.js",
+    "migration:create": "npm run typeorm -- migration:create -n",
+    "migration:run": "npm run typeorm -- migration:run",
+    "migration:revert": "npm run typeorm -- migration:revert",
+    "migration:show": "npm run typeorm -- migration:show",
+    "test": "jest --passWithNoTests --silent --noStackTrace --runInBand",
+    "test:unit": "npm test -- --watch -c jest.unit.config.js"
   },
   "dependencies": {
-    "express": "^4.17.1"
+    "bcrypt": "^5.0.1",
+    "csv-parse": "^4.15.3",
+    "express": "^4.17.1",
+    "multer": "^1.4.2",
+    "pg": "^8.5.1",
+    "reflect-metadata": "^0.1.13",
+    "swagger-ui-express": "^4.1.6",
+    "tsyringe": "^4.4.0",
+    "typeorm": "^0.2.31",
+    "uuid": "^8.3.2"
   },
   "devDependencies": {
+    "@types/bcrypt": "^3.0.0",
     "@types/express": "^4.17.11",
-    "@typescript-eslint/eslint-plugin": "^4.17.0",
-    "@typescript-eslint/parser": "^4.17.0",
+    "@types/jest": "^26.0.21",
+    "@types/multer": "^1.4.5",
+    "@types/node": "^14.14.35",
+    "@types/swagger-ui-express": "^4.1.2",
+    "@types/uuid": "^8.3.0",
+    "@typescript-eslint/eslint-plugin": "^4.18.0",
+    "@typescript-eslint/parser": "^4.18.0",
     "eslint": "^7.22.0",
-    "eslint-config-airbnb-base": "^14.2.1",
     "eslint-config-prettier": "^8.1.0",
-    "eslint-import-resolver-typescript": "^2.4.0",
+    "eslint-config-standard": "^16.0.2",
     "eslint-plugin-import": "^2.22.1",
-    "eslint-plugin-import-helpers": "^1.1.0",
+    "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-prettier": "^3.3.1",
+    "eslint-plugin-promise": "^4.3.1",
+    "jest": "^26.6.3",
     "prettier": "^2.2.1",
+    "ts-jest": "^26.5.4",
     "ts-node-dev": "^1.1.6",
+    "tsconfig-paths": "^3.9.0",
     "typescript": "^4.2.3"
   }
 }
