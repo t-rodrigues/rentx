@@ -4,7 +4,7 @@ import { createConnection } from 'typeorm';
 
 createConnection()
   .then(async () => {
-    const { app } = await import('@/shared/config/app');
+    const { app } = await import('@/main/config/app');
 
     app.listen(3333, () => {
       console.log(`server is listening at port: ${process.env.PORT}`);

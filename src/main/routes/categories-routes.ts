@@ -1,6 +1,6 @@
 import { Router } from 'express';
 
-import { expressRoutesAdapter } from '@/shared/adapters';
+import { expressRoutesAdapter } from '@/main/adapters';
 import {
   makeAddCategoryController,
   makeListCategoriesController,

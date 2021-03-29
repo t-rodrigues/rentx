@@ -1,5 +1,5 @@
-import { Category } from '@/modules/cars/domain/entities';
+import { CategoryEntity } from '@/domain/entities';
 
 export interface LoadCategoryByNameRepository {
-  loadByName(name: string): Promise<Category | null>;
+  loadByName(name: string): Promise<CategoryEntity | null>;
 }

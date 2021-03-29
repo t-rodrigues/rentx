@@ -1,6 +1,7 @@
-import { DbAddCategory } from '@/application/use-cases/cars';
-import { AddCategory } from '@/modules/cars/domain/use-cases';
-import { CategoriesPostgresRepository } from '@/modules/cars/infra/db/typeorm/repositories';
+import { DbAddCategory } from '@/application/use-cases';
+import { CategoriesPostgresRepository } from '@/infra/db/typeorm/repositories';
+
+import { AddCategory } from '@/domain/use-cases';
 
 export const makeDbAddCategory = (): AddCategory => {
   const repository = new CategoriesPostgresRepository();

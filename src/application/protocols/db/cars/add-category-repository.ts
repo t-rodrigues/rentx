@@ -1,6 +1,6 @@
-import { Category } from '@/domain/entities';
-import { AddCategoryParams } from '@/domain/use-cases/cars/add-category';
+import { CategoryEntity } from '@/domain/entities';
+import { AddCategoryParams } from '@/domain/use-cases';
 
 export interface AddCategoryRepository {
-  add(addCategoryData: AddCategoryParams): Promise<Category>;
+  add(addCategoryData: AddCategoryParams): Promise<CategoryEntity>;
 }

@@ -1,7 +1,7 @@
 import { noContent, ok, serverError } from '@/shared/helpers';
 import { Controller, HttpRequest, HttpResponse } from '@/shared/protocols';
 
-import { ListCategories } from '@/modules/cars/domain/use-cases';
+import { ListCategories } from '@/domain/use-cases';
 
 export class ListCategoriesController implements Controller {
   constructor(private readonly listCategories: ListCategories) {}

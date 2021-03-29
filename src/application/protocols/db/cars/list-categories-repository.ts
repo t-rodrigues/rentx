@@ -1,5 +1,5 @@
-import { Category } from '@/modules/cars/domain/entities';
+import { CategoryEntity } from '@/domain/entities';
 
 export interface ListCategoriesRepository {
-  list(): Promise<Category[] | []>;
+  list(): Promise<CategoryEntity[] | []>;
 }

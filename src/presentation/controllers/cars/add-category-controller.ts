@@ -1,8 +1,8 @@
-import { AddCategory } from '@/modules/cars/domain/use-cases';
-
 import { InvalidParamError } from '@/shared/errors';
 import { badRequest, created, serverError } from '@/shared/helpers';
 import { Controller, HttpRequest, HttpResponse } from '@/shared/protocols';
+
+import { AddCategory } from '@/domain/use-cases';
 
 export class AddCategoryController implements Controller {
   constructor(private readonly addCategory: AddCategory) {}
@@ -10,7 +10,6 @@ export class AddCategoryController implements Controller {
   async handle(httpRequest: HttpRequest): Promise<HttpResponse> {
     try {
       const { name, description } = httpRequest.body;
-
       const category = await this.addCategory.add({ name, description });
 
       if (!category) {

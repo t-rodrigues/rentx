@@ -1,5 +1,6 @@
-import { DbListCategories } from '@/application/use-cases/cars';
-import { CategoriesPostgresRepository } from '@/modules/cars/infra/db/typeorm/repositories';
+import { CategoriesPostgresRepository } from '@/infra/db/typeorm/repositories';
+
+import { DbListCategories } from '@/application/use-cases';
 
 export const makeDbListCategories = (): DbListCategories => {
   const repository = new CategoriesPostgresRepository();

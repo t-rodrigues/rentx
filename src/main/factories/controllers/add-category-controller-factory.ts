@@ -1,5 +1,5 @@
 import { Controller } from '@/shared/protocols';
-import { AddCategoryController } from '@/modules/cars/presentation/controllers';
+import { AddCategoryController } from '@/presentation/controllers';
 
 import { makeDbAddCategory } from '../use-cases';
 
