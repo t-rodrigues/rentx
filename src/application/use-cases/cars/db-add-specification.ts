@@ -11,7 +11,13 @@ export class DbAddSpecification implements AddSpecification {
     name,
     description,
   }: AddSpecificationParams): Promise<SpecificationEntity> {
-    await this.loadSpecificationByNameRepository.loadByName(name);
+    const specification = await this.loadSpecificationByNameRepository.loadByName(
+      name,
+    );
+
+    if (specification) {
+      return null;
+    }
 
     return null;
   }

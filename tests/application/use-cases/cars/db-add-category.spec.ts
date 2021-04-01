@@ -2,7 +2,11 @@ import {
   LoadCategoryByNameRepositorySpy,
   AddCategoryRepositorySpy,
 } from '@/tests/application/mocks';
-import { mockAddCategoryParams, throwError } from '@/tests/domain/mocks';
+import {
+  mockAddCategoryParams,
+  mockCategory,
+  throwError,
+} from '@/tests/domain/mocks';
 
 import { DbAddCategory } from '@/application/use-cases';
 
@@ -40,13 +44,7 @@ describe('DbAddCategoryUseCase', () => {
 
     it('should return null if category already exists', async () => {
       const { sut, loadCategoryByNameRepositorySpy } = makeSut();
-      loadCategoryByNameRepositorySpy.result = {
-        id: 'any_id',
-        name: 'any_category',
-        description: 'any_description',
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      };
+      loadCategoryByNameRepositorySpy.result = mockCategory();
       const response = await sut.add(mockAddCategoryParams());
 
       expect(response).toBeNull();

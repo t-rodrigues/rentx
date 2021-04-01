@@ -1,10 +1,15 @@
-import { mockAddSpecificationParams } from '@/tests/domain/mocks';
+import {
+  mockAddCategoryParams,
+  mockAddSpecificationParams,
+  mockSpecification,
+} from '@/tests/domain/mocks';
 import { LoadSpecificationByNameRepositorySpy } from '@/tests/application/mocks';
 
 import { DbAddSpecification } from '@/application/use-cases';
 
 const makeSut = () => {
   const loadSpecificationByNameRepositorySpy = new LoadSpecificationByNameRepositorySpy();
+  loadSpecificationByNameRepositorySpy.result = null;
   const sut = new DbAddSpecification(loadSpecificationByNameRepositorySpy);
 
   return {
@@ -14,13 +19,20 @@ const makeSut = () => {
 };
 
 describe('DbAddSpecification', () => {
-  it('should call loadSpecificationByNameRepository with correct value', async () => {
+  it('should call LoadSpecificationByNameRepository with correct value', async () => {
     const { sut, loadSpecificationByNameRepositorySpy } = makeSut();
     const addSpecificationParams = mockAddSpecificationParams();
     await sut.add(addSpecificationParams);
 
-    expect(loadSpecificationByNameRepositorySpy.params).toEqual(
+    expect(loadSpecificationByNameRepositorySpy.params).toBe(
       addSpecificationParams.name,
     );
+  });
+  it('should return null if LoadSpecificationByNameRepository returns an Specification', async () => {
+    const { sut, loadSpecificationByNameRepositorySpy } = makeSut();
+    loadSpecificationByNameRepositorySpy.result = mockSpecification();
+    const response = await sut.add(mockAddCategoryParams());
+
+    expect(response).toBeNull();
   });
 });
