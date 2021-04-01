@@ -1,10 +1,9 @@
+import { DbAddCategoryParams, DbCategory } from '@/application/dtos';
 import {
   LoadCategoryByNameRepository,
   AddCategoryRepository,
   ListCategoriesRepository,
 } from '@/application/protocols';
-import { CategoryEntity } from '@/domain/entities';
-import { AddCategoryParams } from '@/domain/use-cases';
 import { mockCategory } from '@/tests/domain/mocks';
 
 export class LoadCategoryByNameRepositorySpy
@@ -12,7 +11,7 @@ export class LoadCategoryByNameRepositorySpy
   name: string;
   result = mockCategory();
 
-  async loadByName(name: string): Promise<CategoryEntity> {
+  async loadByName(name: string): Promise<DbCategory> {
     this.name = name;
 
     return this.result;
@@ -20,10 +19,10 @@ export class LoadCategoryByNameRepositorySpy
 }
 
 export class AddCategoryRepositorySpy implements AddCategoryRepository {
-  params: AddCategoryParams;
+  params: DbAddCategoryParams;
   result = mockCategory();
 
-  async add(addCategoryData: AddCategoryParams): Promise<CategoryEntity> {
+  async add(addCategoryData: DbAddCategoryParams): Promise<DbCategory> {
     this.params = addCategoryData;
 
     return this.result;
@@ -34,7 +33,7 @@ export class ListCategoriesSpy implements ListCategoriesRepository {
   count = 0;
   result = [mockCategory(), mockCategory()];
 
-  async list(): Promise<CategoryEntity[]> {
+  async list(): Promise<DbCategory[]> {
     this.count++;
 
     return this.result;

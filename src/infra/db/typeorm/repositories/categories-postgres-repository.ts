@@ -1,13 +1,12 @@
 import { getRepository, Repository } from 'typeorm';
-
 import {
   AddCategoryRepository,
   ListCategoriesRepository,
   LoadCategoryByNameRepository,
-} from '@/modules/cars/application/protocols';
-import { AddCategoryParams } from '@/modules/cars/domain/use-cases';
+} from '@/application/protocols';
+import { AddCategoryParams } from '@/domain/use-cases';
 
-import { Category } from '../entities/category';
+import { Category } from '../entities';
 
 export class CategoriesPostgresRepository
   implements
