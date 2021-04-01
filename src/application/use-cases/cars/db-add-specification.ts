@@ -1,10 +1,14 @@
-import { LoadSpecificationByNameRepository } from '@/application/protocols';
+import {
+  AddSpecificationRepository,
+  LoadSpecificationByNameRepository,
+} from '@/application/protocols';
 import { SpecificationEntity } from '@/domain/entities';
 import { AddSpecification, AddSpecificationParams } from '@/domain/use-cases';
 
 export class DbAddSpecification implements AddSpecification {
   constructor(
     private readonly loadSpecificationByNameRepository: LoadSpecificationByNameRepository,
+    private readonly addSpecificationRepository: AddSpecificationRepository,
   ) {}
 
   async add({
@@ -18,6 +22,11 @@ export class DbAddSpecification implements AddSpecification {
     if (specification) {
       return null;
     }
+
+    await this.addSpecificationRepository.add({
+      name,
+      description,
+    });
 
     return null;
   }

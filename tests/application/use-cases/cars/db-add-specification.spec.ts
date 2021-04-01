@@ -4,18 +4,26 @@ import {
   mockSpecification,
   throwError,
 } from '@/tests/domain/mocks';
-import { LoadSpecificationByNameRepositorySpy } from '@/tests/application/mocks';
+import {
+  LoadSpecificationByNameRepositorySpy,
+  AddSpecificationRepositorySpy,
+} from '@/tests/application/mocks';
 
 import { DbAddSpecification } from '@/application/use-cases';
 
 const makeSut = () => {
   const loadSpecificationByNameRepositorySpy = new LoadSpecificationByNameRepositorySpy();
+  const addSpecificationRepositorySpy = new AddSpecificationRepositorySpy();
   loadSpecificationByNameRepositorySpy.result = null;
-  const sut = new DbAddSpecification(loadSpecificationByNameRepositorySpy);
+  const sut = new DbAddSpecification(
+    loadSpecificationByNameRepositorySpy,
+    addSpecificationRepositorySpy,
+  );
 
   return {
     sut,
     loadSpecificationByNameRepositorySpy,
+    addSpecificationRepositorySpy,
   };
 };
 
@@ -46,5 +54,15 @@ describe('DbAddSpecification', () => {
     const promise = sut.add(mockAddCategoryParams());
 
     expect(promise).rejects.toThrow();
+  });
+
+  it('should call AddSpecificationRepository with correct values', async () => {
+    const { sut, addSpecificationRepositorySpy } = makeSut();
+    const addSpecificationParams = mockAddSpecificationParams();
+    await sut.add(addSpecificationParams);
+
+    expect(addSpecificationRepositorySpy.params).toEqual(
+      addSpecificationParams,
+    );
   });
 });
