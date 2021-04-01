@@ -28,41 +28,55 @@ const makeSut = () => {
 };
 
 describe('DbAddSpecification', () => {
-  it('should call LoadSpecificationByNameRepository with correct value', async () => {
-    const { sut, loadSpecificationByNameRepositorySpy } = makeSut();
-    const addSpecificationParams = mockAddSpecificationParams();
-    await sut.add(addSpecificationParams);
+  describe('LoadSpecificationByNameRepository', () => {
+    it('should call LoadSpecificationByNameRepository with correct value', async () => {
+      const { sut, loadSpecificationByNameRepositorySpy } = makeSut();
+      const addSpecificationParams = mockAddSpecificationParams();
+      await sut.add(addSpecificationParams);
 
-    expect(loadSpecificationByNameRepositorySpy.params).toBe(
-      addSpecificationParams.name,
-    );
+      expect(loadSpecificationByNameRepositorySpy.params).toBe(
+        addSpecificationParams.name,
+      );
+    });
+
+    it('should return null if LoadSpecificationByNameRepository returns an Specification', async () => {
+      const { sut, loadSpecificationByNameRepositorySpy } = makeSut();
+      loadSpecificationByNameRepositorySpy.result = mockSpecification();
+      const response = await sut.add(mockAddCategoryParams());
+
+      expect(response).toBeNull();
+    });
+
+    it('should throw if LoadSpecificationByNameRepository throws', async () => {
+      const { sut, loadSpecificationByNameRepositorySpy } = makeSut();
+      jest
+        .spyOn(loadSpecificationByNameRepositorySpy, 'loadByName')
+        .mockRejectedValueOnce(throwError);
+      const promise = sut.add(mockAddCategoryParams());
+
+      expect(promise).rejects.toThrow();
+    });
   });
 
-  it('should return null if LoadSpecificationByNameRepository returns an Specification', async () => {
-    const { sut, loadSpecificationByNameRepositorySpy } = makeSut();
-    loadSpecificationByNameRepositorySpy.result = mockSpecification();
-    const response = await sut.add(mockAddCategoryParams());
+  describe('AddSpecificationRepository', () => {
+    it('should call AddSpecificationRepository with correct values', async () => {
+      const { sut, addSpecificationRepositorySpy } = makeSut();
+      const addSpecificationParams = mockAddSpecificationParams();
+      await sut.add(addSpecificationParams);
 
-    expect(response).toBeNull();
-  });
+      expect(addSpecificationRepositorySpy.params).toEqual(
+        addSpecificationParams,
+      );
+    });
 
-  it('should throw if LoadSpecificationByNameRepository throws', async () => {
-    const { sut, loadSpecificationByNameRepositorySpy } = makeSut();
-    jest
-      .spyOn(loadSpecificationByNameRepositorySpy, 'loadByName')
-      .mockRejectedValueOnce(throwError);
-    const promise = sut.add(mockAddCategoryParams());
+    it('should throw if AddSpecificationRepository throws', async () => {
+      const { sut, addSpecificationRepositorySpy } = makeSut();
+      jest
+        .spyOn(addSpecificationRepositorySpy, 'add')
+        .mockRejectedValueOnce(throwError);
+      const promise = sut.add(mockAddCategoryParams());
 
-    expect(promise).rejects.toThrow();
-  });
-
-  it('should call AddSpecificationRepository with correct values', async () => {
-    const { sut, addSpecificationRepositorySpy } = makeSut();
-    const addSpecificationParams = mockAddSpecificationParams();
-    await sut.add(addSpecificationParams);
-
-    expect(addSpecificationRepositorySpy.params).toEqual(
-      addSpecificationParams,
-    );
+      expect(promise).rejects.toThrow();
+    });
   });
 });
