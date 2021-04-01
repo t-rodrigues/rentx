@@ -1,0 +1,14 @@
+default:
+  type: 'postgres'
+  host: 'localhost'
+  port: 5432
+  username: 'postgres'
+  password: 'docker'
+  database: 'rentx'
+  entities:
+    - 'src/infra/db/typeorm/entities/*.ts'
+  migrations:
+    - 'src/infra/db/typeorm/migrations/*.ts'
+  cli:
+    entitiesDier: 'src/infra/db/typeorm/entites'
+    migrationsDir: 'src/infra/db/typeorm/migrations'
