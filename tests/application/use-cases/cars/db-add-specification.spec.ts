@@ -2,6 +2,7 @@ import {
   mockAddCategoryParams,
   mockAddSpecificationParams,
   mockSpecification,
+  throwError,
 } from '@/tests/domain/mocks';
 import { LoadSpecificationByNameRepositorySpy } from '@/tests/application/mocks';
 
@@ -28,11 +29,22 @@ describe('DbAddSpecification', () => {
       addSpecificationParams.name,
     );
   });
+
   it('should return null if LoadSpecificationByNameRepository returns an Specification', async () => {
     const { sut, loadSpecificationByNameRepositorySpy } = makeSut();
     loadSpecificationByNameRepositorySpy.result = mockSpecification();
     const response = await sut.add(mockAddCategoryParams());
 
     expect(response).toBeNull();
+  });
+
+  it('should throw if LoadSpecificationByNameRepository throws', async () => {
+    const { sut, loadSpecificationByNameRepositorySpy } = makeSut();
+    jest
+      .spyOn(loadSpecificationByNameRepositorySpy, 'loadByName')
+      .mockRejectedValueOnce(throwError);
+    const promise = sut.add(mockAddCategoryParams());
+
+    expect(promise).rejects.toThrow();
   });
 });
