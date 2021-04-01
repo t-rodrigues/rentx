@@ -78,5 +78,12 @@ describe('DbAddSpecification', () => {
 
       expect(promise).rejects.toThrow();
     });
+
+    it('should return an Specification on success', async () => {
+      const { sut, addSpecificationRepositorySpy } = makeSut();
+      const response = await sut.add(mockAddCategoryParams());
+
+      expect(response).toEqual(addSpecificationRepositorySpy.result);
+    });
   });
 });

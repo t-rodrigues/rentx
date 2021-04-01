@@ -15,19 +15,19 @@ export class DbAddSpecification implements AddSpecification {
     name,
     description,
   }: AddSpecificationParams): Promise<SpecificationEntity> {
-    const specification = await this.loadSpecificationByNameRepository.loadByName(
+    const specificationExists = await this.loadSpecificationByNameRepository.loadByName(
       name,
     );
 
-    if (specification) {
+    if (specificationExists) {
       return null;
     }
 
-    await this.addSpecificationRepository.add({
+    const specification = await this.addSpecificationRepository.add({
       name,
       description,
     });
 
-    return null;
+    return specification;
   }
 }
