@@ -30,4 +30,11 @@ describe('DbListCategories', () => {
 
     await expect(promise).rejects.toThrow();
   });
+
+  it('should return an list of categories on success', async () => {
+    const { sut, listCategoriesRepository } = makeSut();
+    const response = await sut.list();
+
+    expect(response).toBe(listCategoriesRepository.result);
+  });
 });
