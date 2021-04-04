@@ -13,11 +13,13 @@ const makeSut = () => {
 };
 
 describe('DbCreateUser', () => {
-  it('should call CreateUserRepository with correct value', async () => {
-    const { sut, loadUserByEmailRepositorySpy } = makeSut();
-    const createUserParams = mockCreateUserParams();
-    await sut.create(createUserParams);
+  describe('LoadUserByEmailRepository', () => {
+    it('should call LoadUserByEmailRepository with correct value', async () => {
+      const { sut, loadUserByEmailRepositorySpy } = makeSut();
+      const createUserParams = mockCreateUserParams();
+      await sut.create(createUserParams);
 
-    expect(loadUserByEmailRepositorySpy.email).toBe(createUserParams.email);
+      expect(loadUserByEmailRepositorySpy.email).toBe(createUserParams.email);
+    });
   });
 });
