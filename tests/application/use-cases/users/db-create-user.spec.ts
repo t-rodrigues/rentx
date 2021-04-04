@@ -85,5 +85,15 @@ describe('DbCreateUser', () => {
         driverLicense: createUserParams.driverLicense,
       });
     });
+
+    it('should throw if CreateUserRepository throws', async () => {
+      const { sut, createUserRepositorySpy } = makeSut();
+      jest
+        .spyOn(createUserRepositorySpy, 'create')
+        .mockRejectedValueOnce(throwError);
+      const promise = sut.create(mockCreateUserParams());
+
+      await expect(promise).rejects.toThrow();
+    });
   });
 });
