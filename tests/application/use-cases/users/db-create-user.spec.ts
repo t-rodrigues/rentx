@@ -62,5 +62,13 @@ describe('DbCreateUser', () => {
 
       expect(hasherSpy.plaintext).toBe(createUserParams.password);
     });
+
+    it('should throw if Hasher throws', async () => {
+      const { sut, hasherSpy } = makeSut();
+      jest.spyOn(hasherSpy, 'hash').mockRejectedValueOnce(throwError);
+      const promise = sut.create(mockCreateUserParams());
+
+      await expect(promise).rejects.toThrow();
+    });
   });
 });
