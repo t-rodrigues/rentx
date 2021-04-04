@@ -1,6 +1,7 @@
-import { DbCreateUser } from '@/application/use-cases';
 import { LoadUserByEmailRepositorySpy } from '@/tests/application/mocks';
-import { mockCreateUserParams } from '@/tests/domain/mocks';
+import { mockCreateUserParams, throwError } from '@/tests/domain/mocks';
+
+import { DbCreateUser } from '@/application/use-cases';
 
 const makeSut = () => {
   const loadUserByEmailRepositorySpy = new LoadUserByEmailRepositorySpy();
@@ -20,6 +21,16 @@ describe('DbCreateUser', () => {
       await sut.create(createUserParams);
 
       expect(loadUserByEmailRepositorySpy.email).toBe(createUserParams.email);
+    });
+
+    it('should throw if LoadUserByEmailRepository throws', async () => {
+      const { sut, loadUserByEmailRepositorySpy } = makeSut();
+      jest
+        .spyOn(loadUserByEmailRepositorySpy, 'loadByEmail')
+        .mockRejectedValueOnce(throwError);
+      const promise = sut.create(mockCreateUserParams());
+
+      await expect(promise).rejects.toThrow();
     });
   });
 });
