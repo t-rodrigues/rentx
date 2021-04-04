@@ -3,7 +3,11 @@ import {
   HasherSpy,
   LoadUserByEmailRepositorySpy,
 } from '@/tests/application/mocks';
-import { mockCreateUserParams, throwError } from '@/tests/domain/mocks';
+import {
+  mockCreateUserParams,
+  mockUser,
+  throwError,
+} from '@/tests/domain/mocks';
 
 import { DbCreateUser } from '@/application/use-cases';
 
@@ -51,6 +55,14 @@ describe('DbCreateUser', () => {
       await sut.create(mockCreateUserParams());
 
       expect(loadUserByEmailRepositorySpy.result).toBeNull();
+    });
+
+    it('should return null if an Existing email is registered', async () => {
+      const { sut, loadUserByEmailRepositorySpy } = makeSut();
+      loadUserByEmailRepositorySpy.result = mockUser();
+      const resposne = await sut.create(mockCreateUserParams());
+
+      expect(resposne).toBeNull();
     });
   });
 
