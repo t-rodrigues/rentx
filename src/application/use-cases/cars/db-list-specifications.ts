@@ -8,7 +8,6 @@ export class DbListSpecifications implements ListSpecifications {
   ) {}
 
   async list(): Promise<SpecificationEntity[]> {
-    await this.listSpecificationsRepository.list();
-    return null;
+    return this.listSpecificationsRepository.list();
   }
 }

@@ -4,7 +4,6 @@ import {
   ListSpecificationsRepository,
   LoadSpecificationByNameRepository,
 } from '@/application/protocols';
-import { SpecificationEntity } from '@/domain/entities';
 
 import { mockSpecification } from '@/tests/domain/mocks';
 
@@ -36,7 +35,7 @@ export class ListSpecificationsRepositorySpy
   count = 0;
   result = [mockSpecification(), mockSpecification()];
 
-  async list(): Promise<SpecificationEntity[]> {
+  async list(): Promise<DbSpecification[]> {
     this.count++;
 
     return this.result;

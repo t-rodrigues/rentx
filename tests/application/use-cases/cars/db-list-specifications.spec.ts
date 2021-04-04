@@ -1,6 +1,7 @@
-import { DbListSpecifications } from '@/application/use-cases';
 import { ListSpecificationsRepositorySpy } from '@/tests/application/mocks';
 import { throwError } from '@/tests/domain/mocks';
+
+import { DbListSpecifications } from '@/application/use-cases';
 
 const makeSut = () => {
   const listSpecificationsRepositorySpy = new ListSpecificationsRepositorySpy();
@@ -28,5 +29,12 @@ describe('DbListSpecifications', () => {
     const promise = sut.list();
 
     await expect(promise).rejects.toThrow();
+  });
+
+  it('should return a list of Specifications on success', async () => {
+    const { sut, listSpecificationsRepositorySpy } = makeSut();
+    const response = await sut.list();
+
+    expect(response).toEqual(listSpecificationsRepositorySpy.result);
   });
 });
