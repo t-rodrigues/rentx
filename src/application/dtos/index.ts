@@ -1,2 +1,2 @@
-export * from './db-add-category-params';
-export * from './db-add-specification';
+export * from './db-category';
+export * from './db-specification';

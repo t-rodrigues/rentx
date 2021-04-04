@@ -1,8 +1,10 @@
 import { DbAddSpecificationParams, DbSpecification } from '@/application/dtos';
 import {
   AddSpecificationRepository,
+  ListSpecificationsRepository,
   LoadSpecificationByNameRepository,
 } from '@/application/protocols';
+import { SpecificationEntity } from '@/domain/entities';
 
 import { mockSpecification } from '@/tests/domain/mocks';
 
@@ -24,6 +26,18 @@ export class AddSpecificationRepositorySpy
 
   async add(data: DbAddSpecificationParams): Promise<DbSpecification> {
     this.params = data;
+
+    return this.result;
+  }
+}
+
+export class ListSpecificationsRepositorySpy
+  implements ListSpecificationsRepository {
+  count = 0;
+  result = [mockSpecification(), mockSpecification()];
+
+  async list(): Promise<SpecificationEntity[]> {
+    this.count++;
 
     return this.result;
   }
