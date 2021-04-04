@@ -21,6 +21,7 @@ const makeSut = () => {
   return {
     sut,
     loadUserByEmailRepositorySpy,
+    hasherSpy,
     createUserRepositorySpy,
   };
 };
@@ -50,6 +51,16 @@ describe('DbCreateUser', () => {
       await sut.create(mockCreateUserParams());
 
       expect(loadUserByEmailRepositorySpy.result).toBeNull();
+    });
+  });
+
+  describe('Hasher', () => {
+    it('should call Hasher with correct value', async () => {
+      const { sut, hasherSpy } = makeSut();
+      const createUserParams = mockCreateUserParams();
+      await sut.create(createUserParams);
+
+      expect(hasherSpy.plaintext).toBe(createUserParams.password);
     });
   });
 });
