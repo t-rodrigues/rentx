@@ -1,6 +1,9 @@
-import { DbUser } from '@/application/dtos';
+import { DbCreateUserParams, DbUser } from '@/application/dtos';
 
-import { LoadUserByEmailRepository } from '@/application/protocols';
+import {
+  CreateUserRepository,
+  LoadUserByEmailRepository,
+} from '@/application/protocols';
 import { mockUser } from '@/tests/domain/mocks';
 
 export class LoadUserByEmailRepositorySpy implements LoadUserByEmailRepository {
@@ -11,5 +14,14 @@ export class LoadUserByEmailRepositorySpy implements LoadUserByEmailRepository {
     this.email = email;
 
     return this.result;
+  }
+}
+
+export class CreateUserRepositorySpy implements CreateUserRepository {
+  params: DbCreateUserParams;
+  result = mockUser();
+
+  async create(data: DbCreateUserParams): Promise<void> {
+    this.params = data;
   }
 }
