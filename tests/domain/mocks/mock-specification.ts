@@ -1,7 +1,7 @@
 import faker from 'faker';
 
+import { SpecificationEntity } from '@/domain/entities';
 import { AddSpecificationParams } from '@/domain/use-cases';
-import { SpecificationEntity } from '../entities';
 
 export const mockAddSpecificationParams = (): AddSpecificationParams => ({
   name: faker.random.word(),

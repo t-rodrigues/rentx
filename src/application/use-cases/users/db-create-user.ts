@@ -7,9 +7,9 @@ import { CreateUser, CreateUserParams } from '@/domain/use-cases';
 
 export class DbCreateUser implements CreateUser {
   constructor(
+    private readonly loadUserByEmailRepository: LoadUserByEmailRepository,
     private readonly hasher: Hasher,
     private readonly createUserRepository: CreateUserRepository,
-    private readonly loadUserByEmailRepository: LoadUserByEmailRepository,
   ) {}
 
   async create(userData: CreateUserParams): Promise<void> {

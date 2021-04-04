@@ -1,7 +1,7 @@
 import faker from 'faker';
 
+import { CategoryEntity } from '@/domain/entities';
 import { AddCategoryParams } from '@/domain/use-cases';
-import { CategoryEntity } from '../entities';
 
 export const mockAddCategoryParams = (): AddCategoryParams => ({
   name: faker.random.word(),
