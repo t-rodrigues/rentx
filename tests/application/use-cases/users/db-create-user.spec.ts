@@ -1,11 +1,11 @@
 import {
   CreateUserRepositorySpy,
+  HasherSpy,
   LoadUserByEmailRepositorySpy,
 } from '@/tests/application/mocks';
 import { mockCreateUserParams, throwError } from '@/tests/domain/mocks';
 
 import { DbCreateUser } from '@/application/use-cases';
-import { HasherSpy } from '../../mocks/mock-cryptography';
 
 const makeSut = () => {
   const loadUserByEmailRepositorySpy = new LoadUserByEmailRepositorySpy();
@@ -69,6 +69,21 @@ describe('DbCreateUser', () => {
       const promise = sut.create(mockCreateUserParams());
 
       await expect(promise).rejects.toThrow();
+    });
+  });
+
+  describe('CreateUserRepository', () => {
+    it('should call CreateUserRepository with correct values', async () => {
+      const { sut, hasherSpy, createUserRepositorySpy } = makeSut();
+      const createUserParams = mockCreateUserParams();
+      await sut.create(createUserParams);
+
+      expect(createUserRepositorySpy.params).toEqual({
+        name: createUserParams.name,
+        email: createUserParams.email,
+        password: hasherSpy.digest,
+        driverLicense: createUserParams.driverLicense,
+      });
     });
   });
 });
