@@ -6,21 +6,34 @@ services:
     container_name: db-container
     restart: on-failure
     environment:
-      - POSTGRES_PASSWORD=postgres
-      - POSTGRES_DB=rentx
+      POSTGRES_USER: rentx
+      POSTGRES_PASSWORD: docker
+      POSTGRES_DB: rentx
     volumes:
       - rentx_data:/var/lib/postgresql/data
-    network_mode: host
-  # api:
-  #   image: node:14
-  #   container_name: api-container
-  #   working_dir: /usr/app
-  #   restart: on-failure
-  #   command: bash -c "npm install && npm run dev"
-  #   volumes:
-  #     - .:/usr/app
-  #     # - ./package.json:/usr/app/package.json
-  #   network_mode: host
+    ports:
+      - 5432:5432
+      - 9229:9229
+    networks:
+      - rentx-app
+
+  api:
+    image: node:14
+    container_name: api-container
+    working_dir: /app
+    restart: on-failure
+    command: bash -c "npm install && npm run dev"
+    volumes:
+      - ./:/app
+    ports:
+      - 3333:3333
+    networks:
+      - rentx-app
+    depends_on:
+      - db
 
 volumes:
   rentx_data:
+
+networks:
+  rentx-app:

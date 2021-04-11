@@ -1,13 +1,18 @@
 import express from 'express';
 
-import { setupSwagger } from './swagger';
-import { setupRoutes } from './routes';
+import { TypeOrmHelper } from '@/infra/db/typeorm';
 
 const app = express();
 
-app.use(express.json());
+TypeOrmHelper.connect()
+  .then(async () => {
+    const { setupSwagger } = await import('./swagger');
+    const { setupRoutes } = await import('./routes');
 
-setupSwagger(app);
-setupRoutes(app);
+    app.use(express.json());
+    setupSwagger(app);
+    setupRoutes(app);
+  })
+  .catch(console.error);
 
 export { app };

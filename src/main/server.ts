@@ -1,13 +1,10 @@
 import 'reflect-metadata';
 
-import { createConnection } from 'typeorm';
+import { app } from '@/main/config/app';
+import { env } from '@/main/config/env';
 
-createConnection()
-  .then(async () => {
-    const { app } = await import('@/main/config/app');
+app.listen(env.port, () => {
+  console.log(`server running at port ${env.port}`);
+});
 
-    app.listen(3333, () => {
-      console.log(`server is listening at port: ${process.env.PORT}`);
-    });
-  })
-  .catch(console.error);
+export { app };
