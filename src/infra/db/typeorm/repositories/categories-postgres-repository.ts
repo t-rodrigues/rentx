@@ -1,12 +1,13 @@
 import { getRepository, Repository } from 'typeorm';
+
+import { DbAddCategoryParams } from '@/application/dtos';
 import {
   AddCategoryRepository,
   ListCategoriesRepository,
   LoadCategoryByNameRepository,
 } from '@/application/protocols';
-import { AddCategoryParams } from '@/domain/use-cases';
 
-import { Category } from '../entities';
+import { Category } from '@/infra/db/typeorm/entities';
 
 export class CategoriesPostgresRepository
   implements
@@ -19,7 +20,7 @@ export class CategoriesPostgresRepository
     this.repository = getRepository(Category);
   }
 
-  async add({ name, description }: AddCategoryParams): Promise<Category> {
+  async add({ name, description }: DbAddCategoryParams): Promise<Category> {
     const category = this.repository.create({
       name,
       description,
