@@ -8,7 +8,7 @@ import { CreateUserParams } from '@/domain/use-cases';
 
 import { User } from '../entities';
 
-export class UserPostgresRepository
+export class AccountsPostgresRepository
   implements CreateUserRepository, LoadUserByEmailRepository {
   private userRepository: Repository<User>;
 

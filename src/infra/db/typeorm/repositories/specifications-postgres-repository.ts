@@ -9,7 +9,7 @@ import {
 
 import { Specification } from '@/infra/db/typeorm/entities';
 
-export class SpecificationsRepository
+export class SpecificationsPostgresRepository
   implements
     AddSpecificationRepository,
     ListSpecificationsRepository,
