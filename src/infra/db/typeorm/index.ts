@@ -10,8 +10,6 @@ export const TypeOrmHelper = {
   connection: null as Connection,
 
   async connect(test?: boolean): Promise<void> {
-    console.log(postgres);
-
     this.connection = await createConnections([
       {
         ...postgres,
