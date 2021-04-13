@@ -25,7 +25,7 @@ export class User implements UserEntity {
   @Column({ name: 'driver_license' })
   driverLicense: string;
 
-  @Column({ type: 'boolean', default: false })
+  @Column({ name: 'is_admin', type: 'boolean', default: false })
   admin: boolean;
 
   @CreateDateColumn({ name: 'created_at', type: 'time without time zone' })
