@@ -13,7 +13,6 @@ services:
       - rentx_data:/var/lib/postgresql/data
     ports:
       - 5432:5432
-      - 9229:9229
     networks:
       - rentx-app
 
@@ -27,6 +26,7 @@ services:
       - ./:/app
     ports:
       - 3333:3333
+      - 9229:9229
     networks:
       - rentx-app
     depends_on:
