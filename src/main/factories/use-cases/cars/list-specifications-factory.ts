@@ -1,9 +1,9 @@
-import { CategoriesPostgresRepository } from '@/infra/db/typeorm/repositories';
+import { SpecificationsPostgresRepository } from '@/infra/db/typeorm/repositories';
 
 import { DbListSpecifications } from '@/application/use-cases';
 
 export const makeDbListSpecifications = (): DbListSpecifications => {
-  const repository = new CategoriesPostgresRepository();
+  const repository = new SpecificationsPostgresRepository();
 
   return new DbListSpecifications(repository);
 };
