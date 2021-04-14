@@ -2,12 +2,13 @@ import {
   CreateUserRepositorySpy,
   HasherSpy,
   LoadUserByEmailRepositorySpy,
-} from '@/tests/application/mocks';
+} from '@/__tests__/application/mocks';
 import {
   mockCreateUserParams,
   mockUser,
   throwError,
-} from '@/tests/domain/mocks';
+} from '@/__tests__/domain/mocks';
+import { EmailAlreadyInUseError } from '@/domain/errors';
 
 import { DbCreateUser } from '@/application/use-cases';
 
@@ -62,7 +63,7 @@ describe('DbCreateUser', () => {
       loadUserByEmailRepositorySpy.result = mockUser();
       const resposne = await sut.create(mockCreateUserParams());
 
-      expect(resposne).toBeNull();
+      expect(resposne).toBeInstanceOf(EmailAlreadyInUseError);
     });
   });
 

@@ -1,5 +1,5 @@
-import { ListSpecificationsRepositorySpy } from '@/tests/application/mocks';
-import { throwError } from '@/tests/domain/mocks';
+import { ListSpecificationsRepositorySpy } from '@/__tests__/application/mocks';
+import { throwError } from '@/__tests__/domain/mocks';
 
 import { DbListSpecifications } from '@/application/use-cases';
 

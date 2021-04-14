@@ -1,12 +1,12 @@
 import {
   LoadCategoryByNameRepositorySpy,
   AddCategoryRepositorySpy,
-} from '@/tests/application/mocks';
+} from '@/__tests__/application/mocks';
 import {
   mockAddCategoryParams,
   mockCategory,
   throwError,
-} from '@/tests/domain/mocks';
+} from '@/__tests__/domain/mocks';
 
 import { DbAddCategory } from '@/application/use-cases';
 

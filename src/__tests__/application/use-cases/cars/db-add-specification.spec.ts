@@ -3,11 +3,11 @@ import {
   mockAddSpecificationParams,
   mockSpecification,
   throwError,
-} from '@/tests/domain/mocks';
+} from '@/__tests__/domain/mocks';
 import {
   LoadSpecificationByNameRepositorySpy,
   AddSpecificationRepositorySpy,
-} from '@/tests/application/mocks';
+} from '@/__tests__/application/mocks';
 
 import { DbAddSpecification } from '@/application/use-cases';
 

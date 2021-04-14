@@ -1,5 +1,5 @@
-import { ListCategoriesSpy } from '@/tests/application/mocks';
-import { throwError } from '@/tests/domain/mocks';
+import { ListCategoriesSpy } from '@/__tests__/application/mocks';
+import { throwError } from '@/__tests__/domain/mocks';
 
 import { DbListCategories } from '@/application/use-cases';
 

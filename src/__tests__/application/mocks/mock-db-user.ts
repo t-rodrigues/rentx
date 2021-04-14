@@ -4,7 +4,7 @@ import {
   CreateUserRepository,
   LoadUserByEmailRepository,
 } from '@/application/protocols';
-import { mockUser } from '@/tests/domain/mocks';
+import { mockUser } from '@/__tests__/domain/mocks';
 
 export class LoadUserByEmailRepositorySpy implements LoadUserByEmailRepository {
   email: string;

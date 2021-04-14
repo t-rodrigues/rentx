@@ -5,7 +5,7 @@ import {
   LoadSpecificationByNameRepository,
 } from '@/application/protocols';
 
-import { mockSpecification } from '@/tests/domain/mocks';
+import { mockSpecification } from '@/__tests__/domain/mocks';
 
 export class LoadSpecificationByNameRepositorySpy
   implements LoadSpecificationByNameRepository {
