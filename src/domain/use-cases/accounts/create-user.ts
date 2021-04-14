@@ -6,5 +6,5 @@ export type CreateUserParams = {
 };
 
 export interface CreateUser {
-  create(data: CreateUserParams): Promise<void>;
+  create(data: CreateUserParams): Promise<void | Error>;
 }

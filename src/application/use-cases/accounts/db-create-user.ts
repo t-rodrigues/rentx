@@ -3,6 +3,8 @@ import {
   Hasher,
   LoadUserByEmailRepository,
 } from '@/application/protocols';
+import { EmailAlreadyInUseError } from '@/domain/errors';
+
 import { CreateUser, CreateUserParams } from '@/domain/use-cases';
 
 export class DbCreateUser implements CreateUser {
@@ -12,7 +14,7 @@ export class DbCreateUser implements CreateUser {
     private readonly createUserRepository: CreateUserRepository,
   ) {}
 
-  async create(userData: CreateUserParams): Promise<void> {
+  async create(userData: CreateUserParams): Promise<void | Error> {
     const { name, email, password, driverLicense } = userData;
 
     const emailAlreadyExists = await this.loadUserByEmailRepository.loadByEmail(
@@ -20,7 +22,7 @@ export class DbCreateUser implements CreateUser {
     );
 
     if (emailAlreadyExists) {
-      return null;
+      return new EmailAlreadyInUseError();
     }
 
     const hashedPassword = await this.hasher.hash(password);
