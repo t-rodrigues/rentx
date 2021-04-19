@@ -16,22 +16,6 @@ services:
     networks:
       - rentx-app
 
-  api:
-    image: node:14
-    container_name: api-container
-    working_dir: /app
-    restart: on-failure
-    command: bash -c "npm install && npm run dev"
-    volumes:
-      - ./:/app
-    ports:
-      - 3333:3333
-      - 9229:9229
-    networks:
-      - rentx-app
-    depends_on:
-      - db
-
 volumes:
   rentx_data:
 
