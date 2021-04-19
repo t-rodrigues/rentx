@@ -1,5 +1,5 @@
 {
-  "name": "api",
+  "name": "rentx-api",
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
@@ -7,7 +7,7 @@
     "dev": "tsnd -r tsconfig-paths/register --inspect --respawn --transpile-only src/main/server.ts",
     "dev:up": "docker-compose up -d",
     "dev:down": "docker-compose down",
-    "typeorm": "tsnd ./node_modules/typeorm/cli.js",
+    "typeorm": "tsnd -r tsconfig-paths/register ./node_modules/typeorm/cli.js",
     "migration:create": "npm run typeorm -- migration:create -n",
     "migration:run": "npm run typeorm -- migration:run",
     "migration:revert": "npm run typeorm -- migration:revert",
