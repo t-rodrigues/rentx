@@ -21,7 +21,14 @@ export class DbAuthentication implements Authentication {
       return new AcessDeniedError();
     }
 
-    await this.hashComparer.compare(password, user.password);
+    const passwordMatchs = await this.hashComparer.compare(
+      password,
+      user.password,
+    );
+
+    if (!passwordMatchs) {
+      return new AcessDeniedError();
+    }
 
     return null;
   }

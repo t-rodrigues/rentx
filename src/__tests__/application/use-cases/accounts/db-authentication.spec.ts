@@ -67,5 +67,13 @@ describe('DbAuthentication', () => {
         loadUserByEmailRepositorySpy.result.password,
       );
     });
+
+    it('should return acess denied error if HashComparer returns false', async () => {
+      const { sut, hashComparerSpy } = makeSut();
+      hashComparerSpy.result = false;
+      const response = await sut.auth(mockAuthParams());
+
+      expect(response).toBeInstanceOf(AcessDeniedError);
+    });
   });
 });
