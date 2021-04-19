@@ -1,14 +1,12 @@
 import { Request, Response } from 'express';
 
-import { Controller, HttpRequest } from '@/shared/protocols';
+import { Controller } from '@/shared/protocols';
 
 export const expressRoutesAdapter = (controller: Controller) => {
   return async (request: Request, response: Response) => {
-    const httpRequest: HttpRequest = {
-      headers: request.headers || {},
-      params: request.params || {},
-      body: request.body || {},
-      files: request.files || {},
+    const httpRequest = {
+      ...(request.body || {}),
+      ...(request.params || {}),
     };
 
     const { statusCode, body } = await controller.handle(httpRequest);

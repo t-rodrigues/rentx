@@ -4,12 +4,17 @@ import { Controller, HttpRequest, HttpResponse } from '@/shared/protocols';
 
 import { AddCategory } from '@/domain/use-cases';
 
+type Request = {
+  name: string;
+  description: string;
+};
+
 export class AddCategoryController implements Controller {
   constructor(private readonly addCategory: AddCategory) {}
 
-  async handle(httpRequest: HttpRequest): Promise<HttpResponse> {
+  async handle(httpRequest: HttpRequest<Request>): Promise<HttpResponse> {
     try {
-      const { name, description } = httpRequest.body;
+      const { name, description } = httpRequest;
       const category = await this.addCategory.add({ name, description });
 
       if (!category) {

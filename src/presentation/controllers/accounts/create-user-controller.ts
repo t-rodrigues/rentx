@@ -4,10 +4,17 @@ import { Controller, HttpRequest, HttpResponse } from '@/shared/protocols';
 
 import { CreateUser } from '@/domain/use-cases';
 
+type Request = {
+  name: string;
+  email: string;
+  password: string;
+  passwordConfirmation: string;
+  driverLicense: string;
+};
 export class CreateUserController implements Controller {
   constructor(private readonly createUser: CreateUser) {}
 
-  async handle(httpRequest: HttpRequest): Promise<HttpResponse> {
+  async handle(request: HttpRequest<Request>): Promise<HttpResponse> {
     try {
       const {
         name,
@@ -15,18 +22,22 @@ export class CreateUserController implements Controller {
         password,
         passwordConfirmation,
         driverLicense,
-      } = httpRequest.body;
+      } = request;
 
       if (password !== passwordConfirmation) {
         return badRequest(new InvalidParamError('passwordConfirmation'));
       }
 
-      await this.createUser.create({
+      const createUserError = await this.createUser.create({
         name,
         email,
         password,
         driverLicense,
       });
+
+      if (createUserError) {
+        return badRequest(createUserError);
+      }
 
       return created('ok');
     } catch (error) {

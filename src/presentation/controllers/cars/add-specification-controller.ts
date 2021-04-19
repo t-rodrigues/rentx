@@ -4,12 +4,17 @@ import { Controller, HttpRequest, HttpResponse } from '@/shared/protocols';
 
 import { AddSpecification } from '@/domain/use-cases';
 
+type Request = {
+  name: string;
+  description: string;
+};
+
 export class AddSpecificationController implements Controller {
   constructor(private readonly addSpecification: AddSpecification) {}
 
-  async handle(httpRequest: HttpRequest): Promise<HttpResponse> {
+  async handle(httpRequest: HttpRequest<Request>): Promise<HttpResponse> {
     try {
-      const { name, description } = httpRequest.body;
+      const { name, description } = httpRequest;
       const specification = await this.addSpecification.add({
         name,
         description,

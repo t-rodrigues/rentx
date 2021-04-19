@@ -1,11 +1,6 @@
-export type HttpRequest = {
-  headers?: any;
-  body?: any;
-  params?: any;
-  files?: any;
-};
+export type HttpRequest<T = any> = T;
 
-export type HttpResponse = {
+export type HttpResponse<T = any> = {
   statusCode: number;
-  body?: any;
+  body?: T;
 };
