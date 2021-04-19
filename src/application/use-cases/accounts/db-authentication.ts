@@ -11,7 +11,12 @@ export class DbAuthentication implements Authentication {
     email,
     password,
   }: AuthParams): Promise<string | AcessDeniedError> {
-    await this.loadUserByEmailRepository.loadByEmail(email);
+    const user = await this.loadUserByEmailRepository.loadByEmail(email);
+
+    if (!user) {
+      return new AcessDeniedError();
+    }
+
     return null;
   }
 }
