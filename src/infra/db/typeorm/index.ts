@@ -9,12 +9,14 @@ const {
 export const TypeOrmHelper = {
   connection: null as Connection,
 
-  async connect(test?: boolean): Promise<void> {
+  async connect(test = false): Promise<void> {
     this.connection = await createConnections([
       {
         ...postgres,
         database: test ? postgres.databaseTest : postgres.database,
         dropSchema: test,
+        entities: ['src/infra/db/typeorm/entities/*{.ts,.js}'],
+        migrations: ['src/infra/db/typeorm/migrations/*{.js,.ts}'],
       } as ConnectionOptions,
     ]);
   },
