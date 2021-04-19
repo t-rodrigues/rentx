@@ -42,4 +42,4 @@ dist
 yarn.lock
 package-lock.json
 
-ormconfig.yml
+ormconfig.json
