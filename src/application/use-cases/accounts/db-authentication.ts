@@ -1,10 +1,14 @@
-import { LoadUserByEmailRepository } from '@/application/protocols';
+import {
+  HashComparer,
+  LoadUserByEmailRepository,
+} from '@/application/protocols';
 import { AcessDeniedError } from '@/domain/errors';
 import { Authentication, AuthParams } from '@/domain/use-cases';
 
 export class DbAuthentication implements Authentication {
   constructor(
     private readonly loadUserByEmailRepository: LoadUserByEmailRepository,
+    private readonly hashComparer: HashComparer,
   ) {}
 
   async auth({
@@ -16,6 +20,8 @@ export class DbAuthentication implements Authentication {
     if (!user) {
       return new AcessDeniedError();
     }
+
+    await this.hashComparer.compare(password, user.password);
 
     return null;
   }
