@@ -1,2 +1,2 @@
 export * from './cars';
-export * from './users';
+export * from './accounts';

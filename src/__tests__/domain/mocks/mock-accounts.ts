@@ -2,6 +2,7 @@ import faker from 'faker';
 
 import { UserEntity } from '@/domain/entities';
 import { DbCreateUserParams } from '@/application/dtos';
+import { AuthParams } from '@/domain/use-cases';
 
 export const mockCreateUserParams = (): DbCreateUserParams => ({
   name: faker.name.findName(),
@@ -19,4 +20,9 @@ export const mockUser = (): UserEntity => ({
   createdAt: faker.date.recent(),
   updatedAt: faker.date.future(),
   admin: false,
+});
+
+export const mockAuthParams = (): AuthParams => ({
+  email: faker.internet.email(),
+  password: faker.internet.password(),
 });
