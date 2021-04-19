@@ -2,7 +2,7 @@ import { DbAuthentication } from '@/application/use-cases';
 import { AcessDeniedError } from '@/domain/errors';
 
 import { LoadUserByEmailRepositorySpy } from '@/__tests__/application/mocks';
-import { mockAuthParams } from '@/__tests__/domain/mocks';
+import { mockAuthParams, throwError } from '@/__tests__/domain/mocks';
 
 const makeSut = () => {
   const loadUserByEmailRepositorySpy = new LoadUserByEmailRepositorySpy();
@@ -33,5 +33,15 @@ describe('DbAuthentication', () => {
     const response = await sut.auth(mockAuthParams());
 
     expect(response).toBeInstanceOf(AcessDeniedError);
+  });
+
+  it('should throw if LoadUserByEmailRepository throws', async () => {
+    const { sut, loadUserByEmailRepositorySpy } = makeSut();
+    jest
+      .spyOn(loadUserByEmailRepositorySpy, 'loadByEmail')
+      .mockRejectedValueOnce(throwError);
+    const promise = sut.auth(mockAuthParams());
+
+    await expect(promise).rejects.toThrow();
   });
 });
