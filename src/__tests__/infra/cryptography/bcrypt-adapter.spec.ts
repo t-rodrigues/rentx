@@ -60,5 +60,12 @@ describe('BCryptAdapter', () => {
 
       await expect(promise).rejects.toThrow();
     });
+
+    it('should return true when compare succeeds', async () => {
+      const sut = makeSut();
+      const response = await sut.compare('any_value', 'hashed_value');
+
+      expect(response).toBeTruthy();
+    });
   });
 });
