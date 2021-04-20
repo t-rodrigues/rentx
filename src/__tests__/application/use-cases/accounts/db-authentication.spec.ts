@@ -2,6 +2,7 @@ import { DbAuthentication } from '@/application/use-cases';
 import { AcessDeniedError } from '@/domain/errors';
 
 import {
+  EncrypterSpy,
   HashComparerSpy,
   LoadUserByEmailRepositorySpy,
 } from '@/__tests__/application/mocks';
@@ -10,15 +11,18 @@ import { mockAuthParams, throwError } from '@/__tests__/domain/mocks';
 const makeSut = () => {
   const loadUserByEmailRepositorySpy = new LoadUserByEmailRepositorySpy();
   const hashComparerSpy = new HashComparerSpy();
+  const encrypterSpy = new EncrypterSpy();
   const sut = new DbAuthentication(
     loadUserByEmailRepositorySpy,
     hashComparerSpy,
+    encrypterSpy,
   );
 
   return {
     sut,
     loadUserByEmailRepositorySpy,
     hashComparerSpy,
+    encrypterSpy,
   };
 };
 
@@ -82,6 +86,18 @@ describe('DbAuthentication', () => {
       const promise = sut.auth(mockAuthParams());
 
       await expect(promise).rejects.toThrow();
+    });
+  });
+
+  describe('Encrypter', () => {
+    it('should call Encrypter with correct values', async () => {
+      const { sut, encrypterSpy, loadUserByEmailRepositorySpy } = makeSut();
+      const encryptSpy = jest.spyOn(encrypterSpy, 'encrypt');
+      await sut.auth(mockAuthParams());
+
+      expect(encryptSpy).toHaveBeenCalledWith(
+        loadUserByEmailRepositorySpy.result.id,
+      );
     });
   });
 });

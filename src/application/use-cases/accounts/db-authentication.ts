@@ -1,4 +1,5 @@
 import {
+  Encrypter,
   HashComparer,
   LoadUserByEmailRepository,
 } from '@/application/protocols';
@@ -9,6 +10,7 @@ export class DbAuthentication implements Authentication {
   constructor(
     private readonly loadUserByEmailRepository: LoadUserByEmailRepository,
     private readonly hashComparer: HashComparer,
+    private readonly encrypter: Encrypter,
   ) {}
 
   async auth({
@@ -29,6 +31,8 @@ export class DbAuthentication implements Authentication {
     if (!passwordMatchs) {
       return new AcessDeniedError();
     }
+
+    await this.encrypter.encrypt(user.id);
 
     return null;
   }
