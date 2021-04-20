@@ -31,5 +31,12 @@ describe('BCryptAdapter', () => {
 
       await expect(promise).rejects.toThrow();
     });
+
+    it('should return an hash on success', async () => {
+      const sut = makeSut();
+      const hash = await sut.hash('any_value');
+
+      expect(hash).toBe('hash');
+    });
   });
 });
