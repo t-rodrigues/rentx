@@ -32,8 +32,6 @@ export class DbAuthentication implements Authentication {
       return new AcessDeniedError();
     }
 
-    await this.encrypter.encrypt(user.id);
-
-    return null;
+    return this.encrypter.encrypt(user.id);
   }
 }

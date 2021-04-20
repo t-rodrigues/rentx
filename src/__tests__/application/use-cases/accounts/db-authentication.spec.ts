@@ -107,5 +107,12 @@ describe('DbAuthentication', () => {
 
       await expect(promise).rejects.toThrow();
     });
+
+    it('should return an token on sucess', async () => {
+      const { sut, encrypterSpy } = makeSut();
+      const response = await sut.auth(mockAuthParams());
+
+      expect(response).toBe(encrypterSpy.result);
+    });
   });
 });
