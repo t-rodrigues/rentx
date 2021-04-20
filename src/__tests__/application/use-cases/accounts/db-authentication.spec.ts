@@ -75,5 +75,13 @@ describe('DbAuthentication', () => {
 
       expect(response).toBeInstanceOf(AcessDeniedError);
     });
+
+    it('should throw if HashComparer throws', async () => {
+      const { sut, hashComparerSpy } = makeSut();
+      jest.spyOn(hashComparerSpy, 'compare').mockRejectedValueOnce(throwError);
+      const promise = sut.auth(mockAuthParams());
+
+      await expect(promise).rejects.toThrow();
+    });
   });
 });
