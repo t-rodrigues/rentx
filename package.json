@@ -14,6 +14,7 @@
     "migration:show": "npm run typeorm -- migration:show",
     "test": "NODE_ENV=test jest --passWithNoTests --noStackTrace --runInBand",
     "test:unit": "npm test -- --watch -c jest.unit.config.js",
+    "test:staged": "npm test -- -o",
     "pre-commit": "lint-staged"
   },
   "dependencies": {
