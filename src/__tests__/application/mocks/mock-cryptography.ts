@@ -29,6 +29,7 @@ export class HashComparerSpy implements HashComparer {
 export class EncrypterSpy implements Encrypter {
   plaintext: string;
   result = faker.datatype.uuid();
+
   async encrypt(plaintext: string): Promise<string> {
     this.plaintext = plaintext;
 
