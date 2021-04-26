@@ -1,4 +1,5 @@
 import { DbLoadAccountByToken } from '@/application/use-cases';
+import { throwError } from '@/__tests__/domain/mocks';
 import { DecrypterSpy } from '../../mocks';
 
 const makeSut = () => {
@@ -16,6 +17,14 @@ describe('DbLoadAccountByToken', () => {
       await sut.load('any_token');
 
       expect(decryptSpy).toHaveBeenCalledWith('any_token');
+    });
+
+    it('should throw if decrypt throws', async () => {
+      const { sut, decrypterSpy } = makeSut();
+      jest.spyOn(decrypterSpy, 'decrypt').mockRejectedValueOnce(throwError);
+      const promise = sut.load('any_token');
+
+      await expect(promise).rejects.toThrow();
     });
   });
 });
