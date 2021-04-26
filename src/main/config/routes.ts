@@ -1,6 +1,7 @@
 import { Express } from 'express';
 
 import {
+  authenticationRouter,
   categoriesRoutes,
   specificationsRouter,
   usersRouter,
@@ -10,4 +11,5 @@ export const setupRoutes = (app: Express) => {
   app.use('/categories', categoriesRoutes);
   app.use('/specifications', specificationsRouter);
   app.use('/users', usersRouter);
+  app.use(authenticationRouter);
 };
