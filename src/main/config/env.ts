@@ -11,6 +11,9 @@ export const env = {
       databaseTest: process.env.DB_DATABASE_TEST || 'rentx_test',
     },
   },
+  bcrypt: {
+    salt: process.env.BCRYPT_SALT || 8,
+  },
   jwt: {
     secret: process.env.JWT_SECRET || 'supersecret123',
     expiresIn: process.env.JWT_EXPIRES_IN || '1d',

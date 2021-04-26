@@ -3,8 +3,7 @@ import {
   HashComparer,
   LoadUserByEmailRepository,
 } from '@/application/protocols';
-import { AcessDeniedError } from '@/domain/errors';
-import { Authentication, AuthParams } from '@/domain/use-cases';
+import { Auth, Authentication, AuthParams } from '@/domain/use-cases';
 
 export class DbAuthentication implements Authentication {
   constructor(
@@ -13,25 +12,28 @@ export class DbAuthentication implements Authentication {
     private readonly encrypter: Encrypter,
   ) {}
 
-  async auth({
-    email,
-    password,
-  }: AuthParams): Promise<string | AcessDeniedError> {
+  async auth({ email, password }: AuthParams): Promise<Auth> {
     const user = await this.loadUserByEmailRepository.loadByEmail(email);
 
-    if (!user) {
-      return new AcessDeniedError();
+    if (user) {
+      const passwordMatchs = await this.hashComparer.compare(
+        password,
+        user.password,
+      );
+
+      if (!passwordMatchs) {
+        return null;
+      }
+      const accessToken = await this.encrypter.encrypt(user.id);
+
+      return {
+        accessToken,
+        user: {
+          name: user.name,
+          email: user.email,
+        },
+      };
     }
-
-    const passwordMatchs = await this.hashComparer.compare(
-      password,
-      user.password,
-    );
-
-    if (!passwordMatchs) {
-      return new AcessDeniedError();
-    }
-
-    return this.encrypter.encrypt(user.id);
+    return null;
   }
 }

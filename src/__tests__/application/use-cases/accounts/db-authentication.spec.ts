@@ -1,5 +1,4 @@
 import { DbAuthentication } from '@/application/use-cases';
-import { AcessDeniedError } from '@/domain/errors';
 
 import {
   EncrypterSpy,
@@ -40,12 +39,12 @@ describe('DbAuthentication', () => {
       expect(loadByEmailSpy).toHaveBeenCalledWith(authParams.email);
     });
 
-    it('should return acess denied error if LoadUserByEmailRepository returns null', async () => {
+    it('should return null if LoadUserByEmailRepository returns null', async () => {
       const { sut, loadUserByEmailRepositorySpy } = makeSut();
       loadUserByEmailRepositorySpy.result = null;
       const response = await sut.auth(mockAuthParams());
 
-      expect(response).toBeInstanceOf(AcessDeniedError);
+      expect(response).toBeNull();
     });
 
     it('should throw if LoadUserByEmailRepository throws', async () => {
@@ -72,12 +71,12 @@ describe('DbAuthentication', () => {
       );
     });
 
-    it('should return acess denied error if HashComparer returns false', async () => {
+    it('should return null if HashComparer returns false', async () => {
       const { sut, hashComparerSpy } = makeSut();
       hashComparerSpy.result = false;
       const response = await sut.auth(mockAuthParams());
 
-      expect(response).toBeInstanceOf(AcessDeniedError);
+      expect(response).toBeNull();
     });
 
     it('should throw if HashComparer throws', async () => {
@@ -109,10 +108,17 @@ describe('DbAuthentication', () => {
     });
 
     it('should return an token on sucess', async () => {
-      const { sut, encrypterSpy } = makeSut();
+      const { sut, encrypterSpy, loadUserByEmailRepositorySpy } = makeSut();
       const response = await sut.auth(mockAuthParams());
 
-      expect(response).toBe(encrypterSpy.result);
+      expect(response).toHaveProperty('accessToken');
+      expect(response).toEqual({
+        accessToken: encrypterSpy.result,
+        user: {
+          name: loadUserByEmailRepositorySpy.result.name,
+          email: loadUserByEmailRepositorySpy.result.email,
+        },
+      });
     });
   });
 });
