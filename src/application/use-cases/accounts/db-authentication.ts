@@ -21,19 +21,19 @@ export class DbAuthentication implements Authentication {
         user.password,
       );
 
-      if (!passwordMatchs) {
-        return null;
-      }
-      const accessToken = await this.encrypter.encrypt(user.id);
+      if (passwordMatchs) {
+        const accessToken = await this.encrypter.encrypt(user.id);
 
-      return {
-        accessToken,
-        user: {
-          name: user.name,
-          email: user.email,
-        },
-      };
+        return {
+          accessToken,
+          user: {
+            name: user.name,
+            email: user.email,
+          },
+        };
+      }
     }
+
     return null;
   }
 }

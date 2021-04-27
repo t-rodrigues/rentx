@@ -1,3 +1,5 @@
+import { UserEntity } from '@/domain/entities';
+
 export type CreateUserParams = {
   name: string;
   password: string;
@@ -6,5 +8,5 @@ export type CreateUserParams = {
 };
 
 export interface CreateUser {
-  create(data: CreateUserParams): Promise<void | Error>;
+  create(data: CreateUserParams): Promise<UserEntity>;
 }

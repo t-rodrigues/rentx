@@ -1,5 +1,5 @@
-import { AcessDeniedError } from '@/domain/errors';
 import { Authentication } from '@/domain/use-cases';
+import { AccessDeniedError } from '@/shared/errors';
 import { badRequest, ok, serverError } from '@/shared/helpers';
 import { Controller, HttpRequest, HttpResponse } from '@/shared/protocols';
 
@@ -20,7 +20,7 @@ export class AuthenticationController implements Controller {
       });
 
       if (!authentication) {
-        return badRequest(new AcessDeniedError());
+        return badRequest(new AccessDeniedError());
       }
 
       return ok(authentication);

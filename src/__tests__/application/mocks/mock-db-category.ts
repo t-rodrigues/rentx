@@ -4,6 +4,7 @@ import {
   AddCategoryRepository,
   ListCategoriesRepository,
 } from '@/application/protocols';
+
 import { mockCategory } from '@/__tests__/domain/mocks';
 
 export class LoadCategoryByNameRepositorySpy

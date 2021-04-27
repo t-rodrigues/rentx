@@ -8,7 +8,6 @@ import {
   mockUser,
   throwError,
 } from '@/__tests__/domain/mocks';
-import { EmailAlreadyInUseError } from '@/domain/errors';
 
 import { DbCreateUser } from '@/application/use-cases';
 
@@ -63,7 +62,7 @@ describe('DbCreateUser', () => {
       loadUserByEmailRepositorySpy.result = mockUser();
       const resposne = await sut.create(mockCreateUserParams());
 
-      expect(resposne).toBeInstanceOf(EmailAlreadyInUseError);
+      expect(resposne).toBeNull();
     });
   });
 

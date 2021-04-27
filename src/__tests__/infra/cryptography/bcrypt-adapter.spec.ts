@@ -1,11 +1,12 @@
 import bcrypt from 'bcrypt';
 
+import { env } from '@/main/config/env';
 import { BCryptAdapter } from '@/infra/cryptography';
 import { throwError } from '@/__tests__/domain/mocks';
 
-const salt = 12;
+const salt = env.bcrypt.salt;
 const makeSut = (): BCryptAdapter => {
-  return new BCryptAdapter(salt);
+  return new BCryptAdapter();
 };
 
 jest.mock('bcrypt', () => ({

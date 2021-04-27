@@ -1,14 +1,19 @@
 import { Router } from 'express';
 
-import { expressRoutesAdapter } from '@/main/adapters';
+import {
+  expressMiddlewareAdapter,
+  expressRoutesAdapter,
+} from '@/main/adapters';
 import {
   makeAddCategoryController,
+  makeAuthMiddleware,
   makeListCategoriesController,
 } from '@/main/factories';
 
 const categoriesRoutes = Router();
 
-categoriesRoutes.post('/', expressRoutesAdapter(makeAddCategoryController()));
+categoriesRoutes.use(expressMiddlewareAdapter(makeAuthMiddleware()));
 categoriesRoutes.get('/', expressRoutesAdapter(makeListCategoriesController()));
+categoriesRoutes.post('/', expressRoutesAdapter(makeAddCategoryController()));
 
 export { categoriesRoutes };

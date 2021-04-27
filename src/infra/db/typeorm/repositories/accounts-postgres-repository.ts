@@ -3,13 +3,17 @@ import { getRepository, Repository } from 'typeorm';
 import {
   CreateUserRepository,
   LoadUserByEmailRepository,
+  LoadUserByIdRepository,
 } from '@/application/protocols';
 import { CreateUserParams } from '@/domain/use-cases';
 
 import { User } from '../entities';
 
 export class AccountsPostgresRepository
-  implements CreateUserRepository, LoadUserByEmailRepository {
+  implements
+    CreateUserRepository,
+    LoadUserByEmailRepository,
+    LoadUserByIdRepository {
   private userRepository: Repository<User>;
 
   constructor() {
@@ -28,13 +32,11 @@ export class AccountsPostgresRepository
     await this.userRepository.save(user);
   }
 
-  async loadByEmail(email: string): Promise<User | null> {
-    const user = await this.userRepository.findOne({ email });
+  async loadByEmail(email: string): Promise<User> {
+    return this.userRepository.findOne({ email });
+  }
 
-    if (!user) {
-      return null;
-    }
-
-    return user;
+  async loadById(id: string): Promise<User> {
+    return this.userRepository.findOne(id);
   }
 }

@@ -44,7 +44,7 @@ export class EncrypterSpy implements Encrypter {
 
 export class DecrypterSpy implements Decrypter {
   ciphertext: string;
-  result = faker.internet.password();
+  result = faker.datatype.uuid();
 
   async decrypt(ciphertext: string): Promise<string> {
     this.ciphertext = ciphertext;

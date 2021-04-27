@@ -1,16 +1,25 @@
-import { sign } from 'jsonwebtoken';
+import { sign, verify } from 'jsonwebtoken';
 
-import { Encrypter } from '@/application/protocols';
+import { Decrypter, Encrypter } from '@/application/protocols';
+import { env } from '@/main/config/env';
 
-export class JwtAdapter implements Encrypter {
-  constructor(
-    private readonly secret: string,
-    private readonly expiresIn: string,
-  ) {}
-
+export type TokenReturn = {
+  userId: string;
+};
+export class JwtAdapter implements Encrypter, Decrypter {
   async encrypt(plaintext: string): Promise<string> {
-    return sign({ user_id: plaintext }, this.secret, {
-      expiresIn: this.expiresIn,
+    return sign({ userId: plaintext }, env.jwt.secret, {
+      expiresIn: env.jwt.expiresIn,
     });
+  }
+
+  async decrypt(ciphertext: string): Promise<string> {
+    try {
+      const { userId } = verify(ciphertext, env.jwt.secret) as TokenReturn;
+
+      return userId;
+    } catch {
+      return null;
+    }
   }
 }

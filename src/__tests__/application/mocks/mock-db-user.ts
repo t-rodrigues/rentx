@@ -1,9 +1,10 @@
 import { DbCreateUserParams, DbUser } from '@/application/dtos';
-
 import {
   CreateUserRepository,
   LoadUserByEmailRepository,
+  LoadUserByIdRepository,
 } from '@/application/protocols';
+
 import { mockUser } from '@/__tests__/domain/mocks';
 
 export class LoadUserByEmailRepositorySpy implements LoadUserByEmailRepository {
@@ -23,5 +24,16 @@ export class CreateUserRepositorySpy implements CreateUserRepository {
 
   async create(data: DbCreateUserParams): Promise<void> {
     this.params = data;
+  }
+}
+
+export class LoadUserByIdRepositorySpy implements LoadUserByIdRepository {
+  id: string;
+  result = mockUser();
+
+  async loadById(id: string): Promise<DbUser> {
+    this.id = id;
+
+    return this.result;
   }
 }

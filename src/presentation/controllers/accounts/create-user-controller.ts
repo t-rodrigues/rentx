@@ -1,4 +1,4 @@
-import { InvalidParamError } from '@/shared/errors';
+import { EmailAlreadyInUseError, InvalidParamError } from '@/shared/errors';
 import { badRequest, created, serverError } from '@/shared/helpers';
 import { Controller, HttpRequest, HttpResponse } from '@/shared/protocols';
 
@@ -28,18 +28,18 @@ export class CreateUserController implements Controller {
         return badRequest(new InvalidParamError('passwordConfirmation'));
       }
 
-      const createUserError = await this.createUser.create({
+      const user = await this.createUser.create({
         name,
         email,
         password,
         driverLicense,
       });
 
-      if (createUserError) {
-        return badRequest(createUserError);
+      if (!user) {
+        return badRequest(new EmailAlreadyInUseError());
       }
 
-      return created('ok');
+      return created(user);
     } catch (error) {
       return serverError(error);
     }
